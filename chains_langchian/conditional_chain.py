@@ -4,6 +4,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 from typing import Literal
+from langchain_core.runnables import RunnableBranch
 
 load_dotenv()
 
@@ -44,6 +45,10 @@ Return ONLY valid JSON.
 )
 
 clf_chain = prompt1 | model | parser2
+
+branch_chain=RunnableBranch(
+    (conditon,chain)
+)
 
 result = clf_chain.invoke({"text": "worse phone i use in my life"})
 print(result.sentiment)
